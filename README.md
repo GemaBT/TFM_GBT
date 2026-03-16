@@ -31,9 +31,7 @@ README.md
 * **Django**
 * Herramientas de seguridad y pruebas (por de determinar)
 
-"iniciando marcos de trabajo"
-
-## Próximos pasos
+## Pasos del experimento
 
 1. Implementar y configurar cada API.
 2. Aplicar medidas de seguridad: autenticación, autorización, gestión de sesiones, cifrado y validación de entradas.
