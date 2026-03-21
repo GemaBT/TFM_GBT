@@ -63,3 +63,43 @@ class RolPermiso(models.Model):
         db_table = 'role_permissions'
         managed = False
         unique_together = ('role_id', 'permission_id')
+
+# ========================
+# Tabla user_sessions
+# ========================
+class UserSession(models.Model):
+    id = models.AutoField(primary_key=True)
+    user_id = models.IntegerField()
+    token = models.CharField(max_length=500)
+    ip_address = models.CharField(max_length=50)
+    user_agent = models.CharField(max_length=255)
+    created_at = models.DateTimeField()
+    expires_at = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'user_sessions'
+        managed = False
+
+    def __str__(self):
+        return f"Session {self.id} - User {self.user_id}"
+
+
+# ========================
+# Tabla auth_logs
+# ========================
+class AuthLog(models.Model):
+    id = models.AutoField(primary_key=True)
+    user_id = models.IntegerField(null=True, blank=True)
+    action = models.CharField(max_length=50)
+    ip_address = models.CharField(max_length=50)
+    user_agent = models.CharField(max_length=255)
+    status = models.CharField(max_length=50)
+    created_at = models.DateTimeField()
+
+    class Meta:
+        db_table = 'auth_logs'
+        managed = False
+
+    def __str__(self):
+        return f"{self.action} - {self.status}"

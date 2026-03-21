@@ -26,6 +26,22 @@ from .views import (
     listar_permisos, crear_permiso, obtener_permiso, actualizar_permiso, eliminar_permiso
 )
 
+from .views import (
+    listar_sesiones,
+    crear_sesion,
+    obtener_sesion,
+    actualizar_sesion,
+    eliminar_sesion
+)
+
+from .views import (
+    listar_logs,
+    crear_log,
+    obtener_log,
+    actualizar_log,
+    eliminar_log
+)
+
 urlpatterns = [
     # USUARIOS
     path('usuarios/', listar_usuarios, name='listar_usuarios'),
@@ -47,4 +63,23 @@ urlpatterns = [
     path('permisos/<int:pk>/', obtener_permiso, name='obtener_permiso'),
     path('permisos/<int:pk>/actualizar/', actualizar_permiso, name='actualizar_permiso'),
     path('permisos/<int:pk>/eliminar/', eliminar_permiso, name='eliminar_permiso'),
+    
+    # ========================
+    # USER SESSIONS
+    # ========================
+    path('sesiones/', listar_sesiones, name='listar_sesiones'),
+    path('sesiones/crear/', crear_sesion, name='crear_sesion'),
+    path('sesiones/<int:pk>/', obtener_sesion, name='obtener_sesion'),
+    path('sesiones/<int:pk>/actualizar/', actualizar_sesion, name='actualizar_sesion'),
+    path('sesiones/<int:pk>/eliminar/', eliminar_sesion, name='eliminar_sesion'),
+
+    # ========================
+    # AUTH LOGS
+    # ========================
+    path('logs/', listar_logs, name='listar_logs'),
+    path('logs/crear/', crear_log, name='crear_log'),
+    path('logs/<int:pk>/', obtener_log, name='obtener_log'),
+    path('logs/<int:pk>/actualizar/', actualizar_log, name='actualizar_log'),
+    path('logs/<int:pk>/eliminar/', eliminar_log, name='eliminar_log'),
+
 ]

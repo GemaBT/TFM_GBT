@@ -357,3 +357,110 @@ def eliminar_permiso(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     permiso.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+from .models import UserSession, AuthLog
+from .serializers import UserSessionSerializer, AuthLogSerializer
+
+# ========================
+# USER SESSIONS
+# ========================
+
+@api_view(['GET'])
+def listar_sesiones(request):
+    sesiones = UserSession.objects.all()
+    serializer = UserSessionSerializer(sesiones, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def crear_sesion(request):
+    serializer = UserSessionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
+
+@api_view(['GET'])
+def obtener_sesion(request, pk):
+    try:
+        sesion = UserSession.objects.get(pk=pk)
+    except UserSession.DoesNotExist:
+        return Response(status=404)
+    serializer = UserSessionSerializer(sesion)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def actualizar_sesion(request, pk):
+    try:
+        sesion = UserSession.objects.get(pk=pk)
+    except UserSession.DoesNotExist:
+        return Response(status=404)
+    serializer = UserSessionSerializer(sesion, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+
+@api_view(['DELETE'])
+def eliminar_sesion(request, pk):
+    try:
+        sesion = UserSession.objects.get(pk=pk)
+    except UserSession.DoesNotExist:
+        return Response(status=404)
+    sesion.delete()
+    return Response(status=204)
+
+
+
+# ========================
+# AUTH LOGS
+# ========================
+
+@api_view(['GET'])
+def listar_logs(request):
+    logs = AuthLog.objects.all()
+    serializer = AuthLogSerializer(logs, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def crear_log(request):
+    serializer = AuthLogSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
+
+@api_view(['GET'])
+def obtener_log(request, pk):
+    try:
+        log = AuthLog.objects.get(pk=pk)
+    except AuthLog.DoesNotExist:
+        return Response(status=404)
+    serializer = AuthLogSerializer(log)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def actualizar_log(request, pk):
+    try:
+        log = AuthLog.objects.get(pk=pk)
+    except AuthLog.DoesNotExist:
+        return Response(status=404)
+    serializer = AuthLogSerializer(log, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+
+@api_view(['DELETE'])
+def eliminar_log(request, pk):
+    try:
+        log = AuthLog.objects.get(pk=pk)
+    except AuthLog.DoesNotExist:
+        return Response(status=404)
+    log.delete()
+    return Response(status=204)
