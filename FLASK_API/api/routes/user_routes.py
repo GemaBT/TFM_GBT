@@ -109,3 +109,45 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 
     return {"message": "Usuario eliminado"}
 
+"""
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from api.database import SessionLocal
+from api.models import User
+from api.schemas import UserCreate
+
+router = APIRouter()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@router.get("/usuarios")
+def get_users(db: Session = Depends(get_db)):
+    return db.query(User).all()
+
+@router.post("/usuarios")
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    new_user = User(
+        username=user.username,
+        email=user.email,
+        password_hash=user.password,
+        role_id=1
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+@router.delete("/usuarios/{user_id}")
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(404, "Usuario no encontrado")
+    db.delete(user)
+    db.commit()
+    return {"message": "Usuario eliminado"}
+"""
