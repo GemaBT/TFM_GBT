@@ -35,7 +35,7 @@ def read_users(db: Session = Depends(get_db)):
     except Exception as e:
         return {"error": str(e)}
     
-# 📥 Obtener usuario por ID
+# Obtener usuario por ID
 @router.get("/usuarios/{user_id}")
 def get_user(user_id: int, db: Session = Depends(get_db)):
     user = db.execute(
@@ -48,7 +48,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
 
     return dict(user)
 
-# ➕ Crear usuario
+# Crear usuario
 @router.post("/usuarios")
 def create_user(username: str, email: str, password: str, db: Session = Depends(get_db)):
     try:
@@ -71,7 +71,7 @@ def create_user(username: str, email: str, password: str, db: Session = Depends(
         db.rollback()
         return {"error": str(e)}
 
-# ✏️ Actualizar usuario
+# Actualizar usuario
 @router.put("/usuarios/{user_id}")
 def update_user(user_id: int, username: str, email: str, db: Session = Depends(get_db)):
     result = db.execute(
@@ -94,7 +94,7 @@ def update_user(user_id: int, username: str, email: str, db: Session = Depends(g
 
     return {"message": "Usuario actualizado"}
 
-# ❌ Eliminar usuario
+# Eliminar usuario
 @router.delete("/usuarios/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     result = db.execute(

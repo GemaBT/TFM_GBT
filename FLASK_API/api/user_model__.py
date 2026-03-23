@@ -1,3 +1,4 @@
+"""
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
@@ -34,3 +35,4 @@ class UserSession(Base):
     #create_at
     #expire_at
     #is_active
+"""
