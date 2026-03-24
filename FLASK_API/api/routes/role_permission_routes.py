@@ -12,22 +12,30 @@ def get_db():
     finally:
         db.close()
 
+# ➕ Añadir permiso a un rol
 @router.post("/roles/{role_id}/permisos/{permiso_id}")
 def add_permission(role_id: int, permiso_id: int, db: Session = Depends(get_db)):
-    role = db.query(Role).get(role_id)
-    permiso = db.query(Permission).get(permiso_id)
+    role = db.get(Role, role_id)
+    permiso = db.get(Permission, permiso_id)
     if not role or not permiso:
-        raise HTTPException(404, "No encontrado")
-    role.permissions.append(permiso)
-    db.commit()
-    return {"message": "Permiso añadido"}
+        raise HTTPException(status_code=404, detail="Rol o permiso no encontrado")
+    
+    if permiso not in role.permissions:
+        role.permissions.append(permiso)
+        db.commit()
+        return {"message": "Permiso añadido"}
+    return {"message": "El permiso ya estaba asignado"}
 
+# ❌ Eliminar permiso de un rol
 @router.delete("/roles/{role_id}/permisos/{permiso_id}")
 def remove_permission(role_id: int, permiso_id: int, db: Session = Depends(get_db)):
-    role = db.query(Role).get(role_id)
-    permiso = db.query(Permission).get(permiso_id)
+    role = db.get(Role, role_id)
+    permiso = db.get(Permission, permiso_id)
     if not role or not permiso:
-        raise HTTPException(404, "No encontrado")
-    role.permissions.remove(permiso)
-    db.commit()
-    return {"message": "Permiso eliminado"}
+        raise HTTPException(status_code=404, detail="Rol o permiso no encontrado")
+    
+    if permiso in role.permissions:
+        role.permissions.remove(permiso)
+        db.commit()
+        return {"message": "Permiso eliminado"}
+    return {"message": "El permiso no estaba asignado"}
